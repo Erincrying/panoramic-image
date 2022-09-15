@@ -13,6 +13,7 @@ This is the panorama example from section 3.3.
 # set paths to data folder
 # imname使我们要拼接的原图
 # featname是sift文件，这个文件是需要根据原图进行生成的
+# 需要根据自己的图像地址和图像数量修改地址和循环次数
 # featname = ['./images5/'+str(i+1)+'.sift' for i in range(2)] 
 # imname = ['./images5/'+str(i+1)+'.jpg' for i in range(2)]
 featname = ['./test/1027-'+str(i+1)+'.sift' for i in range(2)] 
