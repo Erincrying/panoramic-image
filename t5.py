@@ -5,7 +5,7 @@ from PIL import Image
 # If you have PCV installed, these imports should work
 from PCV.geometry import homography, warp
 from PCV.localdescriptors import sift
-np.seterr(invalid='ignore')
+np.seterr(invalid='ignore') # 忽略部分警告
 """
 This is the panorama example from section 3.3.
 """
@@ -18,8 +18,9 @@ imname = ['test/1027-'+str(i+1)+'.jpg' for i in range(4)]
 l = {}
 d = {}
 for i in range(4):
-    sift.process_image(imname[i], featname[i])
-    l[i], d[i] = sift.read_features_from_file(featname[i])
+    sift.process_image(imname[i], featname[i]) # 处理图像并将结果保存到文件中tmp.pgm，进而保存到.sift文件中
+    # feature locations, descriptors要素位置，描述符
+    l[i], d[i] = sift.read_features_from_file(featname[i]) # 读取特征属性并以矩阵形式返回
  
 matches = {}
 for i in range(3):
@@ -30,6 +31,7 @@ for i in range(3):
     im1 = array(Image.open(imname[i]))
     im2 = array(Image.open(imname[i + 1]))
     figure()
+    # im1、im2（图像作为数组）、locs1、locs2（特征位置）,matchscores（作为“match”的输出），show_below（如果下面应该显示图像）
     sift.plot_matches(im2, im1, l[i + 1], l[i], matches[i], show_below=True)
  
  
