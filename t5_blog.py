@@ -1,4 +1,4 @@
-# 原作者方法
+# 博客方法
 from pylab import *
 from numpy import *
 from PIL import Image
@@ -51,40 +51,38 @@ def convert_points(j):
  
 # 估计单应性矩阵
 model = homography.RansacModel()
+# 博客方法 
+fp, tp = convert_points(1)
+H_12 = homography.H_from_ransac(fp, tp, model)[0]  # im 1 to 2
+ 
+fp, tp = convert_points(0)
+H_01 = homography.H_from_ransac(fp, tp, model)[0]  # im 0 to 1
+ 
+tp, fp = convert_points(2)  # NB: reverse order
+H_32 = homography.H_from_ransac(fp, tp, model)[0]  # im 3 to 2
+ 
+# tp, fp = convert_points(3)  # NB: reverse order
+# H_43 = homography.H_from_ransac(fp, tp, model)[0]  # im 4 to 3
 
 
-# 原方法
-fp,tp = convert_points(0)
-H_01 = homography.H_from_ransac(fp,tp,model)[0] #im 0 to 1
-
-fp,tp = convert_points(1)
-H_12 = homography.H_from_ransac(fp,tp,model)[0] #im 1 to 2 
-
-tp,fp = convert_points(2) #NB: reverse order
-H_32 = homography.H_from_ransac(fp,tp,model)[0] #im 3 to 2 
-
-#tp,fp = convert_points(3) #NB: reverse order
-#H_43 = homography.H_from_ransac(fp,tp,model)[0] #im 4 to 3   
  
 # 扭曲图像
 delta = 2000  # for padding and translation用于填充和平移
 
-
-
-
-# 原方法
-im1 = array(Image.open(imname[0]), "uint8")
-im2 = array(Image.open(imname[1]), "uint8")
-im_12 = warp.panorama(H_01,im1,im2,delta,delta)
-
+# 博客方法
+im1 = array(Image.open(imname[1]), "uint8")
+im2 = array(Image.open(imname[2]), "uint8")
+im_12 = warp.panorama(H_12, im1, im2, delta, delta)
+ 
 im1 = array(Image.open(imname[0]), "f")
-im_02 = warp.panorama(dot(H_12,H_01),im1,im_12,delta,delta)
-
+im_02 = warp.panorama(dot(H_12, H_01), im1, im_12, delta, delta)
+ 
 im1 = array(Image.open(imname[3]), "f")
-im_32 = warp.panorama(H_32,im1,im_02,delta,delta)
+im_32 = warp.panorama(H_32, im1, im_02, delta, delta)
+ 
+# im1 = array(Image.open(imname[4]), "f")
+# im_42 = warp.panorama(dot(H_32, H_43), im1, im_32, delta, 2 * delta)
 
-#im1 = array(Image.open(imname[4]), "f")
-#im_42 = warp.panorama(dot(H_32,H_43),im1,im_32,delta,2*delta)
 
 figure()
 imshow(array(im_32, "uint8"))
