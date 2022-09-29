@@ -1,4 +1,4 @@
-# 博客方法
+# 博客方法（四张图拼接）
 from pylab import *
 from numpy import *
 from PIL import Image

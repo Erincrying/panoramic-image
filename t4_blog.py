@@ -1,4 +1,4 @@
-# 博客方法
+# 博客方法（三张图）
 from pylab import *
 from numpy import *
 from PIL import Image
@@ -22,7 +22,7 @@ for i in range(3):
     sift.process_image(imname[i], featname[i]) # 处理图像并将结果保存到文件中tmp.pgm，进而保存到.sift文件中
     # feature locations, descriptors要素位置，描述符
     l[i], d[i] = sift.read_features_from_file(featname[i]) # 读取特征属性并以矩阵形式返回
- 
+# 特征间两两匹配
 matches = {}
 for i in range(2):
     matches[i] = sift.match(d[i + 1], d[i])
@@ -73,13 +73,13 @@ delta = 2000  # for padding and translation用于填充和平移
 im1 = array(Image.open(imname[1]), "uint8")
 im2 = array(Image.open(imname[2]), "uint8")
 im_12 = warp.panorama(H_12, im1, im2, delta, delta)
- 
+
 im1 = array(Image.open(imname[0]), "f")
 im_02 = warp.panorama(dot(H_12, H_01), im1, im_12, delta, delta)
- 
+
 # im1 = array(Image.open(imname[3]), "f")
 # im_32 = warp.panorama(H_32, im1, im_02, delta, delta)
- 
+
 # im1 = array(Image.open(imname[4]), "f")
 # im_42 = warp.panorama(dot(H_32, H_43), im1, im_32, delta, 2 * delta)
 
