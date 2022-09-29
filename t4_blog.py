@@ -54,9 +54,11 @@ model = homography.RansacModel()
 # 博客方法 
 fp, tp = convert_points(1)
 H_12 = homography.H_from_ransac(fp, tp, model)[0]  # im 1 to 2
+print(H_12, 'H_12')
  
 fp, tp = convert_points(0)
 H_01 = homography.H_from_ransac(fp, tp, model)[0]  # im 0 to 1
+print(H_01, 'H_01')
  
 # tp, fp = convert_points(2)  # NB: reverse order
 # H_32 = homography.H_from_ransac(fp, tp, model)[0]  # im 3 to 2
@@ -67,7 +69,7 @@ H_01 = homography.H_from_ransac(fp, tp, model)[0]  # im 0 to 1
 
  
 # 扭曲图像
-delta = 2000  # for padding and translation用于填充和平移
+delta = 1500  # for padding and translation用于填充和平移
 
 # 博客方法
 im1 = array(Image.open(imname[1]), "uint8")
